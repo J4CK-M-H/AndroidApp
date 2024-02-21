@@ -1,5 +1,6 @@
 package com.j4ck.misemana.ui.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ import com.j4ck.misemana.data.remote.AppApi
 import com.j4ck.misemana.data.remote.request.LoginRequest
 import com.j4ck.misemana.data.remote.response.LoginResponse
 import com.j4ck.misemana.data.repository.LoginRepository
+import com.j4ck.misemana.ui.home.HomeActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -68,9 +70,14 @@ class LoginActivity : AppCompatActivity() {
                     Log.d("JACK","response: $loginResponse")
                     hideLoader()
                     Toast.makeText(this@LoginActivity, "Bienvenido", Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                    startActivity(intent)
+
                 }.onFailure { exception ->
                     if (exception is IllegalAccessException) {
                         Toast.makeText(this@LoginActivity, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
+                        passwordEditText.setText("")
                     } else {
                         exception.printStackTrace()
                         Toast.makeText(this@LoginActivity, "Ocurrió un error", Toast.LENGTH_SHORT).show()
